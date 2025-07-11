@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false,
+    "declaration": false,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "lib": ["dom", "es5"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "esModuleInterop": true
+  },
+  "include": ["./node_modules/cypress", "cypress/**/*", "cypress/support/**/*.ts"]
+}

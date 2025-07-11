@@ -1,0 +1,134 @@
+name: Sauce Demo UI Cypress Tests
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  sauce-demo-ui-cypress:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup NodeJS 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install
+        run: npm ci
+        
+      - name: Run Sauce Demo UI Cypress Tests
+        run: CYPRESS_username=${{ secrets.USERNAME }} CYPRESS_password=${{ secrets.PASSWORD }}  npm run cypress:run:all
+
+      - name: Upload Cypress Videos
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-videos
+          path: cypress/videos
+
+      - name: Upload Cypress Screenshots
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+      - name: Upload Cypress Reports
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-reports
+          path: cypress/reports
+
+      - name: Prepare Cypress report for GitHub Pages
+        run: |
+          mkdir -p public/cypress
+          cp -r cypress/reports/* public/cypress/
+            
+      - name: Create custom index.html
+        run: |
+          echo '<!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Test Reports</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    margin: 0;
+                    padding: 20px;
+                }
+                h1 {
+                    color: #4CAF50;
+                    text-align: center;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 20px;
+                }
+                th, td {
+                    padding: 12px;
+                    text-align: left;
+                    border: 1px solid #ddd;
+                }
+                th {
+                    background-color: #4CAF50;
+                    color: white;
+                }
+                tr:hover {
+                    background-color: #f1f1f1;
+                }
+                a {
+                    text-decoration: none;
+                    color: #2196F3;
+                }
+                a:hover {
+                    text-decoration: underline;
+                    color: #0b7dda;
+                }
+            </style>
+          </head>
+          <body>
+            <h1>Cypress Test Reports</h1>
+            <table>
+                <tr>
+                    <th>Browser</th>
+                    <th>Report Link</th>
+                </tr>
+                <tr>
+                    <td>Chrome</td>
+                    <td><a href="./cypress/chrome/chrome-ats-report.html">View Report</a></td>
+                </tr>
+                <tr>
+                    <td>Edge</td>
+                    <td><a href="./cypress/edge/edge-ats-report.html">View Report</a></td>
+                </tr>
+                <tr>
+                    <td>Electron</td>
+                    <td><a href="./cypress/electron/electron-ats-report.html">View Report</a></td>
+                </tr>
+                <tr>
+                    <td>Firefox</td>
+                    <td><a href="./cypress/firefox/firefox-ats-report.html">View Report</a></td>
+                </tr>
+            </table>
+          </body>
+          </html>' > public/index.html
+  
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
