@@ -1,4 +1,6 @@
 # cypress-typescript-sample
+**Developer**: [Sakharam Thorat](https://www.linkedin.com/in/sakharamthorat/)
+
 ## Automated Test Suite Documentation for Sauce Labs Demo Website
 ## Problem Statement
 Develop an automated test suite for the Sauce Labs demo website. The test suite should automate the customer flow of selecting three random items from the inventory, adding them to the cart, and completing the checkout process. The automation should ensure thorough coverage of this flow, validating key functionalities and user interactions throughout the process.
