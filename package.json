@@ -1,0 +1,35 @@
+{
+  "name": "up-e2e-cypress",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cypress:run": "cypress run  --config-file ./cypress.config.ts",
+    "cypress:open": "cypress open --config-file ./cypress.config.ts",
+    "cypress:run:chrome": "cypress run --browser chrome --headless --config-file ./cypress.config.ts --reporter cypress-mochawesome-reporter --reporter-options reportDir=cypress/reports/chrome,reportFilename=chrome-ats-report",
+    "cypress:run:firefox": "cypress run --browser firefox --headless --config-file ./cypress.config.ts --reporter cypress-mochawesome-reporter --reporter-options reportDir=cypress/reports/firefox,reportFilename=firefox-ats-report",
+    "cypress:run:edge": "cypress run --browser edge --headless --config-file ./cypress.config.ts --reporter cypress-mochawesome-reporter --reporter-options reportDir=cypress/reports/edge,reportFilename=edge-ats-report",
+    "cypress:run:electron": "cypress run --browser electron --headless --config-file ./cypress.config.ts --reporter cypress-mochawesome-reporter --reporter-options reportDir=cypress/reports/electron,reportFilename=electron-ats-report",
+    "cypress:run:all": "npm-run-all --serial cypress:run:chrome cypress:run:firefox cypress:run:edge cypress:run:electron",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier --write \"**/*.ts\""
+  },
+  "keywords": [],
+  "author": "Sakharam Thorat <sakharam.thorat@vonage.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/lodash": "^4.14.202",
+    "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "@typescript-eslint/parser": "^6.12.0",
+    "cypress": "^13.13.0",
+    "cypress-mochawesome-reporter": "^3.7.0",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-cypress": "^2.15.1",
+    "eslint-plugin-prettier": "^5.0.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.1.0",
+    "typescript": "^5.2.2"
+  }
+}

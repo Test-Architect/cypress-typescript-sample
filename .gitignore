@@ -1,0 +1,10 @@
+dist
+node_modules
+result
+.DS_Store
+.idea
+.vscode
+node_modules
+cypress/reports
+cypress/videos
+cypress/screenshots
